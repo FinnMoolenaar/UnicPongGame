@@ -4,7 +4,6 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Pong Game"
 
-# dit heb ik van de arcade site
 class TextButton:
     #hier geef je variabelen mee voor de buttons, zoals de grootte en de tekst die er in moet komen.
     def __init__(self, center_x, center_y, width, height, text, font_size=18, font_face="Arial", face_color=arcade.color.LIGHT_GRAY, highlight_color=arcade.color.WHITE, shadow_color=arcade.color.GRAY, button_height=2):
@@ -154,7 +153,7 @@ class MenuView(arcade.View):
 
         self.difficulty = 0
 
-    #laat menu view zien
+    #laat menu view zien en welke kleur de achtergrond moet zijn
     def on_show(self): 
         arcade.set_background_color(arcade.color.BLACK)
     
@@ -243,17 +242,19 @@ class Paddle():
         self.y = self.y + self.change_y
    
 class Player1():
+    #score van player 1, verandert in het spel
     def __init__ (self):
         self.score = 0
 
 class Player2():
+    #score van player 2
     def __init__ (self):
         self.score = 0
 
 class InstructionView(arcade.View):
     def __init__(self):
         super().__init__()
-        
+        #2e button list aanmaken en variabelen en acties van de button
         self.button_list2 = []
 
         go_back_button = GoBackButton(720, 570, self.go_back)
@@ -264,6 +265,8 @@ class InstructionView(arcade.View):
 
     def on_draw(self):
         arcade.start_render()
+        
+        #button tekenen en text tekenen op het scherm met instructies
         arcade.draw_text("Instructions", SCREEN_WIDTH / 2, SCREEN_HEIGHT - 150, arcade.color.WHITE, font_size=50, anchor_x="center")
         
         for button in self.button_list2:
@@ -291,6 +294,7 @@ class InstructionView(arcade.View):
         arcade.draw_text(output, SCREEN_WIDTH - 620, 160, arcade.color.WHITE, 20)
 
     def go_back(self):
+        #als de go back button wordt aangeklikt terug gaan naar het menu
         menu_view2 = MenuView()
         self.window.show_view(menu_view2)
   
