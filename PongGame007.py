@@ -139,16 +139,16 @@ class MenuView(arcade.View):
 
         self.button_list = []
 
-        increase_button = IncreaseButton(200, 300, self.difficulty_increase)
+        increase_button = IncreaseButton(SCREEN_WIDTH/4, SCREEN_HEIGHT/2, self.difficulty_increase)
         self.button_list.append(increase_button)
 
-        decrease_button = DecreaseButton(400, 300, self.difficulty_decrease)
+        decrease_button = DecreaseButton(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, self.difficulty_decrease)
         self.button_list.append(decrease_button)
 
-        startlevel_button = StartLevelButton(600, 300, self.start_game)
+        startlevel_button = StartLevelButton(SCREEN_WIDTH - 200, SCREEN_HEIGHT/2, self.start_game)
         self.button_list.append(startlevel_button)
 
-        instruction_button = InstructionButton(720, 570, self.instruction_game)
+        instruction_button = InstructionButton(SCREEN_WIDTH - 80, SCREEN_HEIGHT - 30, self.instruction_game)
         self.button_list.append(instruction_button)
 
         self.difficulty = 0
@@ -166,7 +166,7 @@ class MenuView(arcade.View):
             button.draw()
         
         output = f"Level difficulty  =  {self.difficulty}" 
-        arcade.draw_text(output, SCREEN_WIDTH - 520, 200, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 520, SCREEN_HEIGHT/3, arcade.color.WHITE, 20)
 
     def on_update(self, delta_time):
         pass
@@ -197,8 +197,8 @@ class MenuView(arcade.View):
 class Ball():
     def __init__(self, difficulty):
         # Hier leg je uit wat alle variabbelen zijn
-        self.position_x = 100
-        self.position_y = 100
+        self.position_x = SCREEN_WIDTH/8
+        self.position_y = SCREEN_HEIGHT/6
         self.change_x = 4+difficulty
         self.change_y = 4+difficulty
         self.radius = 20
@@ -257,7 +257,7 @@ class InstructionView(arcade.View):
         #2e button list aanmaken en variabelen en acties van de button
         self.button_list2 = []
 
-        go_back_button = GoBackButton(720, 570, self.go_back)
+        go_back_button = GoBackButton(SCREEN_WIDTH - 80, SCREEN_HEIGHT - 30, self.go_back)
         self.button_list2.append(go_back_button)
 
     def on_show(self):
@@ -273,25 +273,25 @@ class InstructionView(arcade.View):
             button.draw()
         
         output = f"If you want to pause the game press P" 
-        arcade.draw_text(output, SCREEN_WIDTH - 620, 400, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 620, SCREEN_HEIGHT - 200, arcade.color.WHITE, 20)
 
         output = f"If you want to resume the game press ESCAPE" 
-        arcade.draw_text(output, SCREEN_WIDTH - 620, 350, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 620, SCREEN_HEIGHT - 250, arcade.color.WHITE, 20)
 
         output = f"Team Blue uses the Arrow Up to move the paddle up  " 
-        arcade.draw_text(output, SCREEN_WIDTH - 620, 300, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 620, SCREEN_HEIGHT/2, arcade.color.WHITE, 20)
         
         output = f"and uses the Arrow down to move the paddle down " 
-        arcade.draw_text(output, SCREEN_WIDTH - 620, 280, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 620, SCREEN_HEIGHT - 320, arcade.color.WHITE, 20)
 
         output = f"Team Red uses the W key to move the paddle up  " 
-        arcade.draw_text(output, SCREEN_WIDTH - 620, 230, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 620, SCREEN_HEIGHT- 370, arcade.color.WHITE, 20)
         
         output = f"and the S key to move the paddle down   " 
-        arcade.draw_text(output, SCREEN_WIDTH - 620, 210, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 620, SCREEN_HEIGHT - 390, arcade.color.WHITE, 20)
 
         output = f"First team that has 10 points wins   " 
-        arcade.draw_text(output, SCREEN_WIDTH - 620, 160, arcade.color.WHITE, 20)
+        arcade.draw_text(output, SCREEN_WIDTH - 620, SCREEN_HEIGHT - 440, arcade.color.WHITE, 20)
 
     def go_back(self):
         #als de go back button wordt aangeklikt terug gaan naar het menu
@@ -315,8 +315,8 @@ class MyGameView(arcade.View):
 
         self.difficulty = difficulty
         self.ball = Ball(difficulty)
-        self.paddle1 = Paddle(50, arcade.color.RED) 
-        self.paddle2 = Paddle(750, arcade.color.BLUE)
+        self.paddle1 = Paddle(SCREEN_WIDTH - 750, arcade.color.RED) 
+        self.paddle2 = Paddle(SCREEN_WIDTH - 50, arcade.color.BLUE)
         self.total_time = 0.0
         self.Player1 = Player1()
         self.Player2 = Player2()
@@ -343,7 +343,7 @@ class MyGameView(arcade.View):
         output = f"Time: {minutes:02d}:{seconds:02d}"
         #arcade.draw_text(output, 300, 500, arcade.color.WHITE_SMOKE, 30)
         output = f" {self.Player1.score}  :  {self.Player2.score}" 
-        arcade.draw_text(output, 350, 500, arcade.color.WHITE, 30)
+        arcade.draw_text(output, SCREEN_WIDTH - 450, SCREEN_HEIGHT - 100, arcade.color.WHITE, 30)
 
         debug = f"cx:{self.ball.change_x} | cy:{self.ball.change_y}" 
         arcade.draw_text(debug, 0, 100, arcade.color.WHITE, 20)
@@ -356,8 +356,8 @@ class MyGameView(arcade.View):
         
         # hier zeg je dat als de ball over de rechterkant gaat dat je dan 1 punt bij het andere team moet doen
         if self.ball.position_x >= SCREEN_WIDTH:
-            self.ball.position_x = 700
-            self.ball.position_y = 500
+            self.ball.position_x = SCREEN_WIDTH - 100
+            self.ball.position_y = SCREEN_HEIGHT - 100
             self.Player1.score = self.Player1.score + 1
             self.ball.change_x = self.ball.change_x * -1
            
@@ -394,8 +394,8 @@ class MyGameView(arcade.View):
                 
         # hier zeg je dat als de ball over de linkerkant gaat dat je dan 1 punt bij het andere team moet doen
         if self.ball.position_x <= 0:
-            self.ball.position_x = SCREEN_WIDTH - 100
-            self.ball.position_y = 100
+            self.ball.position_x = SCREEN_WIDTH - 700
+            self.ball.position_y = SCREEN_HEIGHT - 500
             self.Player2.score = self.Player2.score + 1
             self.ball.change_x = self.ball.change_x * -1
             
@@ -441,11 +441,11 @@ class MyGameView(arcade.View):
             arcade.play_sound(self.paddle_sound)
 
         #hier zeg je dat als de score van speler 1 of speler 2 10 is dat hij dan naar het Game over scherm moet gaan
-        if self.Player1.score == 10:
+        if self.Player1.score == 3:
             game_over_view1 = GameOverView1()
             self.window.show_view(game_over_view1)
         
-        if self.Player2.score == 10:
+        if self.Player2.score == 3:
             game_over_view2 = GameOverView2()
             self.window.show_view(game_over_view2)
 
@@ -499,7 +499,7 @@ class GameOverView2(arcade.View):
     def on_draw(self):
         arcade.start_render()
        
-        arcade.draw_text("Blue Team won!", 230, 400, arcade.color.WHITE, 54)
+        arcade.draw_text("Blue Team won!", SCREEN_WIDTH - 590, SCREEN_HEIGHT - 200, arcade.color.WHITE, 54)
 
 class GameOverView1(arcade.View):
     def __init__(self):
@@ -514,7 +514,7 @@ class GameOverView1(arcade.View):
     def on_draw(self):
         arcade.start_render()
        
-        arcade.draw_text("Red team won!", 230, 400, arcade.color.WHITE, 54)
+        arcade.draw_text("Red team won!", SCREEN_WIDTH - 590, SCREEN_HEIGHT - 200, arcade.color.WHITE, 54)
         
 def main():
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
